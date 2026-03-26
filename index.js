@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Hello from "./Hello.js"
 import Lab5 from "./lab5/index.js";
 import cors from "cors";
@@ -7,6 +8,7 @@ import EnrollmentRoutes from './kambaz/enrollments/routes.js';
 import CourseRoutes from "./kambaz/courses/routes.js";
 import UserRoutes from "./kambaz/users/routes.js";
 import ModulesRoutes from './kambaz/modules/routes.js';
+import QuizRoutes from './kambaz/quizzes/routes.js';
 import "dotenv/config";
 import session from "express-session";
 import AssignmentRoutes from './kambaz/assignments/routes.js';
@@ -15,6 +17,8 @@ import AssignmentRoutes from './kambaz/assignments/routes.js';
 // const app = express()
 // app.get('/hello', (req, res) => {res.send('Hello World!')})
 // app.listen(4000)
+const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"
+mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(
   cors({
@@ -42,9 +46,10 @@ CourseRoutes(app, db);
 ModulesRoutes(app, db);
 EnrollmentRoutes(app, db);
 AssignmentRoutes(app, db);
+QuizRoutes(app, db);
 Lab5(app);
 Hello(app);
 // app.get('/hello', (req, res) => {res.send('Life is good!')})
 // app.get('/', (req, res) => {
 //   res.send('Welcome to Full Stack Development!')})
-app.listen(4000)
+app.listen(process.env.PORT || 4000);
