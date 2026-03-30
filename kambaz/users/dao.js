@@ -22,7 +22,8 @@ export default function UsersDao() {
   };
   const updateUser = (userId, user) => {
     const id = isNaN(userId) ? userId : Number(userId);
-    return model.updateOne({ _id: id }, { $set: user });
+    const { _id, ...updates } = user;
+    return model.updateOne({ _id: id }, { $set: updates });
   };
   const deleteUser = (userId) => model.findByIdAndDelete(userId);
   return {
