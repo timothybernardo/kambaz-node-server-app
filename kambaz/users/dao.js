@@ -7,10 +7,7 @@ export default function UsersDao() {
     return model.create(newUser);
   };
   const findAllUsers = () => model.find();
-  const findUserById = (userId) => {
-    const id = isNaN(userId) ? userId : Number(userId);
-    return model.findOne({ _id: id });
-  };
+  const findUserById = (userId) => model.findOne({ _id: String(userId) });
   const findUserByUsername = (username) => model.findOne({ username: username });
   const findUserByCredentials = (username, password) => model.findOne({ username, password });
   const findUsersByRole = (role) => model.find({ role: role });
@@ -21,11 +18,10 @@ export default function UsersDao() {
     });
   };
   const updateUser = (userId, user) => {
-    const id = isNaN(userId) ? userId : Number(userId);
     const { _id, ...updates } = user;
-    return model.updateOne({ _id: id }, { $set: updates });
+    return model.updateOne({ _id: String(userId) }, { $set: updates });
   };
-  const deleteUser = (userId) => model.findByIdAndDelete(userId);
+  const deleteUser = (userId) => model.findOneAndDelete({ _id: String(userId) });
   return {
     createUser, findAllUsers, findUserById, findUserByUsername,
     findUserByCredentials, findUsersByRole, findUsersByPartialName,
