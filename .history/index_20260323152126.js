@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import Hello from "./Hello.js"
 import Lab5 from "./lab5/index.js";
 import cors from "cors";

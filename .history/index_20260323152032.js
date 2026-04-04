@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import Hello from "./Hello.js"
 import Lab5 from "./lab5/index.js";
 import cors from "cors";
@@ -52,4 +51,4 @@ Hello(app);
 // app.get('/hello', (req, res) => {res.send('Life is good!')})
 // app.get('/', (req, res) => {
 //   res.send('Welcome to Full Stack Development!')})
-app.listen(process.env.PORT || 4000);
+app.listen(4000)

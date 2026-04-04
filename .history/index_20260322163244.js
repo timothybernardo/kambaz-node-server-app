@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import Hello from "./Hello.js"
 import Lab5 from "./lab5/index.js";
 import cors from "cors";
@@ -17,8 +16,6 @@ import AssignmentRoutes from './kambaz/assignments/routes.js';
 // const app = express()
 // app.get('/hello', (req, res) => {res.send('Hello World!')})
 // app.listen(4000)
-const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"
-mongoose.connect(CONNECTION_STRING);
 const app = express();
 app.use(
   cors({
@@ -52,4 +49,4 @@ Hello(app);
 // app.get('/hello', (req, res) => {res.send('Life is good!')})
 // app.get('/', (req, res) => {
 //   res.send('Welcome to Full Stack Development!')})
-app.listen(process.env.PORT || 4000);
+app.listen(4000)
