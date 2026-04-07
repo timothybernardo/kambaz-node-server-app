@@ -36,7 +36,7 @@ if (process.env.SERVER_ENV !== "development") {
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
-    domain: false,
+    // domain: process.env.SERVER_URL,
   };
 }
 app.use(session(sessionOptions));
