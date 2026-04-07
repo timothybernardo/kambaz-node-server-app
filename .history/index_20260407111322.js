@@ -1,0 +1,55 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import Hello from "./Hello.js"
+import Lab5 from "./lab5/index.js";
+import cors from "cors";
+import db from "./kambaz/database/index.js";
+import EnrollmentRoutes from './kambaz/enrollments/routes.js';
+import CourseRoutes from "./kambaz/courses/routes.js";
+import UserRoutes from "./kambaz/users/routes.js";
+import ModulesRoutes from './kambaz/modules/routes.js';
+import QuizRoutes from './kambaz/quizzes/routes.js';
+import "dotenv/config";
+import session from "express-session";
+import AssignmentRoutes from './kambaz/assignments/routes.js';
+
+// const express = require('express')
+// const app = express()
+// app.get('/hello', (req, res) => {res.send('Hello World!')})
+// app.listen(4000)
+const CONNECTION_STRING = process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz"
+mongoose.connect(CONNECTION_STRING);
+const app = express();
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+  })
+);
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || "kambaz",
+  resave: false,
+  saveUninitialized: false,
+};
+if (process.env.SERVER_ENV !== "development") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie = {
+    sameSite: "none",
+    secure: true,
+    // domain: process.env.SERVER_URL,
+  };
+}
+app.use(session(sessionOptions));
+app.use(express.json());
+UserRoutes(app, db);
+CourseRoutes(app, db);
+ModulesRoutes(app, db);
+EnrollmentRoutes(app, db);
+AssignmentRoutes(app, db);
+QuizRoutes(app, db);
+Lab5(app);
+Hello(app);
+// app.get('/hello', (req, res) => {res.send('Life is good!')})
+// app.get('/', (req, res) => {
+//   res.send('Welcome to Full Stack Development!')})
+app.listen(process.env.PORT || 4000);
